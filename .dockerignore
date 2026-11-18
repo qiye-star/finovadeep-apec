@@ -1,0 +1,7 @@
+apec-chat/.venv
+**/.env
+**/__pycache__
+**/*.pyc
+.git
+.gitignore
+*.zip

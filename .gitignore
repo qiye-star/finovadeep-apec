@@ -1,0 +1,12 @@
+# 密钥：绝不要提交
+.env
+**/.env
+!**/.env.example
+
+# 本地环境
+apec-chat/.venv/
+**/__pycache__/
+*.pyc
+
+# 压缩包与临时文件
+*.zip

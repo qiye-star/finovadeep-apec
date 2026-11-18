@@ -1,0 +1,16 @@
+# systemd 服务：开机自启、崩溃自动重启。放到 /etc/systemd/system/apec-chat.service
+[Unit]
+Description=finova APEC 专题对话服务
+After=network-online.target
+
+[Service]
+WorkingDirectory=/srv/apec-chat
+ExecStart=/srv/apec-chat/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8840 --workers 1
+Restart=always
+RestartSec=3
+User=www-data
+# 只开 1 个进程：限流计数在进程内存里，多进程会让限额翻倍；对话是异步的，1 个进程足够
+# .env 里有模型 key，权限设为只有 www-data 可读（见上线说明）
+
+[Install]
+WantedBy=multi-user.target

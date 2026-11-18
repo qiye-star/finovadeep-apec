@@ -1,0 +1,30 @@
+name: apec
+
+services:
+  chat:
+    build:
+      context: .
+      dockerfile: docker/chat.Dockerfile
+    image: apec-chat:20261118
+    env_file:
+      - path: ./apec-chat/.env
+        required: false
+    expose:
+      - "8840"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8840/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    image: apec-web:20261118
+    depends_on:
+      - chat
+    ports:
+      - "${APEC_WEB_PORT:-3100}:80"
+    restart: unless-stopped
